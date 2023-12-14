@@ -22,7 +22,6 @@ function useLoadUserData() {
 
   // // 判断当前 user store 是否已经存在用户信息
   const { username } = useGetUserInfo() // user store
-  console.log('username', username)
   useEffect(() => {
     if (username) {
       setWaitingUserData(false) // 如果 user store 已经存在用户信息，就不用重新加载了
