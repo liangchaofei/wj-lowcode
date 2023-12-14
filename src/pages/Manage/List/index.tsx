@@ -1,7 +1,7 @@
 import React from "react";
 
-const MainLayout: React.FC = () => {
-    return <div>MainLayout</div>;
+const QuestionList: React.FC = () => {
+    return <div>QuestionList</div>;
 };
 
-export default MainLayout;
+export default QuestionList;
