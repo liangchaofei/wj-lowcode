@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useRequest } from 'ahooks'
+import { useDispatch } from 'react-redux'
 import { useGetUserInfo } from '@/hooks'
 import { getUserInfoService } from '@/services/user'
-import { store } from '@/store';
+import { loginReducer } from '@/store/userReducer'
 
 
 function useLoadUserData() {
+  const dispatch = useDispatch()
   const [waitingUserData, setWaitingUserData] = useState(true)
 
   // ajax 加载用户信息
@@ -13,7 +15,7 @@ function useLoadUserData() {
     manual: true,
     onSuccess(result) {
       const { username, nickname } = result
-      store.userStore.setUserData({ username, nickname })
+      dispatch(loginReducer({ username, nickname })) // 存储到 redux store
     },
     onFinally() {
       setWaitingUserData(false)

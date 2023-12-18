@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useRequest } from 'ahooks'
+import { useDispatch } from 'react-redux'
 import { getQuestionService } from '@/services/question'
-import { store } from '@/store';
+import { resetComponents } from '@/store/componentsReducer'
 
 function useLoadQuestionData() {
+  const dispatch = useDispatch()
   const { id = '' } = useParams()
 
   // ajax 加载
@@ -32,7 +34,8 @@ function useLoadQuestionData() {
        selectedId = componentList[0].fe_id // 默认选中第一个组件
      }
     // 把 componentList 存储到 store 中
-    store.compoentStore.setCompoentData({ componentList, selectedId})
+    // 把 componentList 存储到 Redux store 中
+    dispatch(resetComponents({ componentList, selectedId , copiedComponent: null }))
 
 
   }, [data])
