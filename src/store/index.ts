@@ -1,20 +1,16 @@
-import { UserStore, UserStateType } from './UserStore'
-import { CompoentStore, ComponentsStateType } from './CompoentStore'
-
+import { configureStore } from '@reduxjs/toolkit'
+import userReducer, { UserStateType } from './userReducer'
+import componentsReducer, { ComponentsStateType} from './componentsReducer'
 
 export type StateType = {
   user: UserStateType
   components: ComponentsStateType
 }
 
-export class Store {
-    userStore: UserStore;
-    compoentStore: CompoentStore;
-    constructor() {
-      // Store
-      this.userStore = new UserStore(this);
-      this.compoentStore = new CompoentStore(this)
-    }
-}
-
-export const store =  new Store();
+export default configureStore({
+    reducer: {
+      user: userReducer,
+      components: componentsReducer,
+    },
+})
+  

@@ -1,10 +1,13 @@
 import React, { FC } from "react";
 import { Spin } from 'antd'
+import { useDispatch } from 'react-redux'
 import classNames from 'classnames';
 import { useGetComponentInfo } from '@/hooks'
-import { ComponentInfoType } from '@/store/CompoentStore'
+import {
+    ComponentInfoType,
+    changeSelectedId,
+} from '@/store/componentsReducer'
 import { getComponentConfByType } from '@/components/QuestionComponents'
-import { store } from '@/store'
 import styles from './index.module.scss'
 
 type PropsType = {
@@ -23,13 +26,11 @@ function genComponent(componentInfo: ComponentInfoType) {
 
 const EditCanvas: FC<PropsType> = ({ loading }) => {
     const { componentList, selectedId } = useGetComponentInfo();
-
-    console.log('componentList', componentList)
+    const dispatch = useDispatch()
     // 点击组件，选中
     function handleClick(event: MouseEvent, id: string) {
         event.stopPropagation() // 阻止冒泡
-        // 选中组件a
-        store.compoentStore.getEffect('changeSelectedId')(id)
+        dispatch(changeSelectedId(id))
     }
 
     if (loading) {
