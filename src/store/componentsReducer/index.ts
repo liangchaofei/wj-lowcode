@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import produce from 'immer'
 import { ComponentPropsType } from '@/components/QuestionComponents'
-
+import { insertNewComponent } from './utils'
 export type ComponentInfoType = {
   fe_id: string // 前端生成的 id ，服务端 Mongodb 不认这种格式，所以自定义一个 fe_id
   type: string
@@ -34,12 +34,20 @@ export const componentsSlice = createSlice({
    changeSelectedId: produce((draft: ComponentsStateType, action: PayloadAction<string>) => {
       draft.selectedId = action.payload
    }),
+   // 添加新组件
+   addComponent: produce(
+    (draft: ComponentsStateType, action: PayloadAction<ComponentInfoType>) => {
+      const newComponent = action.payload
+      insertNewComponent(draft, newComponent)
+    }
+  ),
   }
 })
 
 export const {
   resetComponents,
   changeSelectedId,
+  addComponent
 } = componentsSlice.actions
 
 export default componentsSlice.reducer
