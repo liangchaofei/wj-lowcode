@@ -2,6 +2,7 @@ import React from "react";
 import { Space, Tooltip, Button } from "antd";
 import {
     DeleteOutlined,
+    EyeInvisibleOutlined,
     LockOutlined,
     CopyOutlined,
     BlockOutlined,
@@ -14,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { ActionCreators as UndoActionCreators } from "redux-undo";
 import {
     removeSelectedComponent,
+    changeComponentHidden,
     toggleComponentLocked,
     copySelectedComponent,
     pasteCopiedComponent,
@@ -29,10 +31,16 @@ const EditToolbar = () => {
     const selectedIndex = componentList.findIndex(c => c.fe_id === selectedId);
     const isFirst = selectedIndex <= 0; // 第一个
     const isLast = selectedIndex + 1 >= length; // 最后一个
+    console.log("isLast", isLast);
     // 删除
     const handleDelete = () => {
         dispatch(removeSelectedComponent());
     };
+
+    // 隐藏组件
+    function handleHidden() {
+        dispatch(changeComponentHidden({ fe_id: selectedId, isHidden: true }));
+    }
     // 锁定组件
     function handleLock() {
         dispatch(toggleComponentLocked({ fe_id: selectedId }));
@@ -53,6 +61,7 @@ const EditToolbar = () => {
         if (isFirst) return;
         dispatch(moveComponent({ oldIndex: selectedIndex, newIndex: selectedIndex - 1 }));
     }
+
     // 下移
     function moveDown() {
         if (isLast) return;
@@ -72,6 +81,13 @@ const EditToolbar = () => {
         <Space>
             <Tooltip title="删除">
                 <Button shape="circle" icon={<DeleteOutlined />} onClick={handleDelete}></Button>
+            </Tooltip>
+            <Tooltip title="隐藏">
+                <Button
+                    shape="circle"
+                    icon={<EyeInvisibleOutlined />}
+                    onClick={handleHidden}
+                ></Button>
             </Tooltip>
             <Tooltip title="锁定">
                 <Button
@@ -117,4 +133,5 @@ const EditToolbar = () => {
         </Space>
     );
 };
+
 export default EditToolbar;

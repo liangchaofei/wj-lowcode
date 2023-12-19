@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import useGetUserInfo from "../useGetUserInfo";
+import useGetUserInfo from "./useGetUserInfo";
 import {
     isLoginOrRegister,
     isNoNeedUserInfo,

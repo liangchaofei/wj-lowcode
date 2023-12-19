@@ -6,7 +6,7 @@ import {
     LIST_PAGE_PARAM_KEY,
     LIST_PAGE_SIZE_PARAM_KEY,
     LIST_PAGE_SIZE,
-} from "@/constants";
+} from "@/constants/index";
 
 type OptionType = {
     isStar: boolean;

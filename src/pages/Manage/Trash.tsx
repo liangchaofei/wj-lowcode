@@ -5,9 +5,9 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useRequest } from "ahooks";
 import ListSearch from "@/components/ListSearch";
 import ListPage from "@/components/ListPage";
-import useLoadQuestionListData from "@/hooks/useLoadQuestionListData";
+import { useLoadQuestionListData } from "@/hooks";
 import { updateQuestionService, deleteQuestionsService } from "@/services/question";
-import styles from "../common.module.scss";
+import styles from "./common.module.scss";
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -64,6 +64,7 @@ const Trash: FC = () => {
         {
             title: "标题",
             dataIndex: "title",
+            // key: 'title', // 循环列的 key ，它会默认取 dataIndex 的值
         },
         {
             title: "是否发布",

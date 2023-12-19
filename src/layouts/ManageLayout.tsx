@@ -4,7 +4,7 @@ import { Button, Space, Divider, message } from "antd";
 import { useRequest } from "ahooks";
 import { PlusOutlined, BarsOutlined, StarOutlined, DeleteOutlined } from "@ant-design/icons";
 import { createQuestionService } from "@/services/question";
-import styles from "./index.module.scss";
+import styles from "./ManageLayout.module.scss";
 
 const ManageLayout: FC = () => {
     const nav = useNavigate();

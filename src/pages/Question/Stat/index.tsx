@@ -1,7 +1,13 @@
-import React from "react";
+import React, { FC } from "react";
+import { useLoadQuestionData } from "@/hooks";
 
-const MainLayout: React.FC = () => {
-    return <div>MainLayout</div>;
+const Stat: FC = () => {
+    const { loading } = useLoadQuestionData();
+    return (
+        <div>
+            <p>Stat page {loading}</p>
+        </div>
+    );
 };
 
-export default MainLayout;
+export default Stat;

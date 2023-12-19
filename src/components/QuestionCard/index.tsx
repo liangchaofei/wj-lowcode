@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Button, Space, Divider, Tag, Popconfirm, message, Modal } from "antd";
+import { Button, Space, Divider, Tag, Popconfirm, Modal, message } from "antd";
 import {
     EditOutlined,
     LineChartOutlined,
@@ -68,7 +68,6 @@ function QuestionCard(props: PropsType) {
             },
         },
     );
-
     function del() {
         confirm({
             title: "确定删除该问卷？",
@@ -76,7 +75,6 @@ function QuestionCard(props: PropsType) {
             onOk: deleteQuestion,
         });
     }
-
     // 已经删除的问卷，不要再渲染卡片了
     if (isDeletedState) return null;
 

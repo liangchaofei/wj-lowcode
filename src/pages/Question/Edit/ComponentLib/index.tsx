@@ -1,7 +1,7 @@
-import React, { useCallback } from "react";
+import React, { FC, useCallback } from "react";
+import { nanoid } from "nanoid";
 import { Typography } from "antd";
 import { useDispatch } from "react-redux";
-import { nanoid } from "nanoid";
 import { componentConfGroup, ComponentConfType } from "@/components/QuestionComponents";
 import { addComponent } from "@/store/componentsReducer";
 import styles from "./index.module.scss";
@@ -22,6 +22,7 @@ function genComponent(c: ComponentConfType) {
             }),
         );
     }, []);
+
     return (
         <div key={type} className={styles.wrapper} onClick={handleClick}>
             <div className={styles.component}>
@@ -31,7 +32,7 @@ function genComponent(c: ComponentConfType) {
     );
 }
 
-const ComponentLib: React.FC = () => {
+const ComponentLib: FC = () => {
     return (
         <>
             {componentConfGroup?.map((group, index) => {

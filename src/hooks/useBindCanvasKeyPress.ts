@@ -15,21 +15,25 @@ import {
 function isActiveElementValid() {
     const activeElem = document.activeElement;
 
-    // 没有增加 dnd-kit 之前
-    if (activeElem === document.body) return true; // 光标没有 focus 到 input
-    if (activeElem?.matches('div[role="button"]')) return true;
+    // // 没有增加 dnd-kit 之前
+    // if (activeElem === document.body) return true // 光标没有 focus 到 input
+
     // 增加了 dnd-kit 以后
+    if (activeElem === document.body) return true;
+    if (activeElem?.matches('div[role="button"]')) return true;
 
     return false;
 }
 
 function useBindCanvasKeyPress() {
     const dispatch = useDispatch();
+
     // 删除组件
     useKeyPress(["backspace", "delete"], () => {
         if (!isActiveElementValid()) return;
         dispatch(removeSelectedComponent());
     });
+
     // 复制
     useKeyPress(["ctrl.c", "meta.c"], () => {
         if (!isActiveElementValid()) return;
@@ -41,7 +45,6 @@ function useBindCanvasKeyPress() {
         if (!isActiveElementValid()) return;
         dispatch(pasteCopiedComponent());
     });
-
     // 选中上一个
     useKeyPress("uparrow", () => {
         if (!isActiveElementValid()) return;

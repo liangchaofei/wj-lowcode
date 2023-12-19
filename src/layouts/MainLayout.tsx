@@ -4,7 +4,7 @@ import { Layout, Spin } from "antd";
 import { useLoadUserData, useNavPage } from "@/hooks";
 import Logo from "@/components/Logo";
 import UserInfo from "@/components/UserInfo";
-import styles from "./index.module.scss";
+import styles from "./MainLayout.module.scss";
 
 const { Header, Content, Footer } = Layout;
 

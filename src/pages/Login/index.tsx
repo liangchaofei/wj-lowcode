@@ -52,7 +52,7 @@ const Login: FC = () => {
                 setToken(token); // 存储 token
 
                 message.success("登录成功");
-                nav(MANAGE_INDEX_PATHNAME); // 导航到“问卷管理页面”
+                nav(MANAGE_INDEX_PATHNAME); // 导航到“我的问卷”
             },
         },
     );

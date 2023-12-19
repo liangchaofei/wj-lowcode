@@ -3,7 +3,7 @@ import { message, Input, Button, Space } from "antd";
 import { EyeInvisibleOutlined, LockOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import classNames from "classnames";
-import useGetComponentInfo from "@/hooks/useGetComponentInfo";
+import { useGetComponentInfo } from "@/hooks";
 import {
     changeSelectedId,
     changeComponentTitle,

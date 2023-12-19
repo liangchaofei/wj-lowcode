@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { Form, Input } from "antd";
 import { useDispatch } from "react-redux";
-import useGetPageInfo from "@/hooks/useGetPageInfo";
+import { useGetPageInfo } from "@/hooks";
 import { resetPageInfo } from "@/store/pageInfoReducer";
 
 const { TextArea } = Input;

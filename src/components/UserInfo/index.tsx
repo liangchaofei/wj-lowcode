@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { UserOutlined } from "@ant-design/icons";
 import { LOGIN_PATHNAME } from "@/router";
 import { removeToken } from "@/utils/user-token";
-import useGetUserInfo from "@/hooks/useGetUserInfo";
+import { useGetUserInfo } from "@/hooks";
 import { logoutReducer } from "@/store/userReducer";
 const UserInfo: FC = () => {
     const nav = useNavigate();

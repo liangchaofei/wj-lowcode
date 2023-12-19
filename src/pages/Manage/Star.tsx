@@ -4,8 +4,8 @@ import { Typography, Empty, Spin } from "antd";
 import QuestionCard from "@/components/QuestionCard";
 import ListSearch from "@/components/ListSearch";
 import ListPage from "@/components/ListPage";
-import useLoadQuestionListData from "@/hooks/useLoadQuestionListData";
-import styles from "../common.module.scss";
+import { useLoadQuestionListData } from "@/hooks";
+import styles from "./common.module.scss";
 
 const { Title } = Typography;
 
