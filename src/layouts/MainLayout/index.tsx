@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Outlet } from "react-router-dom";
 import { Layout, Spin } from "antd";
-import { useLoadUserData, useNavPage } from '@/hooks';
+import { useLoadUserData, useNavPage } from "@/hooks";
 import Logo from "@/components/Logo";
 import UserInfo from "@/components/UserInfo";
 import styles from "./index.module.scss";
@@ -9,8 +9,8 @@ import styles from "./index.module.scss";
 const { Header, Content, Footer } = Layout;
 
 const MainLayout: FC = () => {
-    const { waitingUserData } = useLoadUserData()
-    useNavPage(waitingUserData)
+    const { waitingUserData } = useLoadUserData();
+    useNavPage(waitingUserData);
     return (
         <Layout>
             <Header className={styles.header}>
@@ -24,8 +24,8 @@ const MainLayout: FC = () => {
             <Layout className={styles.main}>
                 <Content>
                     {waitingUserData ? (
-                        <div style={{ textAlign: 'center', marginTop: '60px' }}>
-                        <Spin />
+                        <div style={{ textAlign: "center", marginTop: "60px" }}>
+                            <Spin />
                         </div>
                     ) : (
                         <Outlet />

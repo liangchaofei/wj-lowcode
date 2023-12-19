@@ -1,13 +1,13 @@
-import React, { FC } from 'react'
-import { Button, Typography } from 'antd'
-import { useNavigate } from 'react-router-dom'
-import { MANAGE_INDEX_PATHNAME } from '@/router'
-import styles from './index.module.scss'
+import React, { FC } from "react";
+import { Button, Typography } from "antd";
+import { useNavigate } from "react-router-dom";
+import { MANAGE_INDEX_PATHNAME } from "@/router";
+import styles from "./index.module.scss";
 
-const { Title, Paragraph } = Typography
+const { Title, Paragraph } = Typography;
 
 const Home: FC = () => {
-    const nav = useNavigate()
+    const nav = useNavigate();
     return (
         <div className={styles.container}>
             <div className={styles.info}>
@@ -20,7 +20,7 @@ const Home: FC = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;

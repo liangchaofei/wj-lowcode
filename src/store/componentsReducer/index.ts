@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import produce from "immer";
-import { nanoid } from "nanoid";
 import cloneDeep from "lodash.clonedeep";
+import { nanoid } from "nanoid";
 import { arrayMove } from "@dnd-kit/sortable";
 import { ComponentPropsType } from "@/components/QuestionComponents";
 import { insertNewComponent, getNextSelectedId } from "./utils";
+
 export type ComponentInfoType = {
     fe_id: string; // 前端生成的 id ，服务端 Mongodb 不认这种格式，所以自定义一个 fe_id
     type: string;
@@ -64,6 +65,7 @@ export const componentsSlice = createSlice({
                 }
             },
         ),
+
         // 删除选中的组件
         removeSelectedComponent: produce((draft: ComponentsStateType) => {
             const { componentList = [], selectedId: removedId } = draft;
@@ -76,79 +78,6 @@ export const componentsSlice = createSlice({
             componentList.splice(index, 1);
         }),
 
-        // 锁定/解锁 组件
-        toggleComponentLocked: produce(
-            (draft: ComponentsStateType, action: PayloadAction<{ fe_id: string }>) => {
-                const { fe_id } = action.payload;
-
-                const curComp = draft.componentList.find(c => c.fe_id === fe_id);
-                if (curComp) {
-                    curComp.isLocked = !curComp.isLocked;
-                }
-            },
-        ),
-        // 拷贝当前选中的组件
-        copySelectedComponent: produce((draft: ComponentsStateType) => {
-            const { selectedId, componentList = [] } = draft;
-            const selectedComponent = componentList.find(c => c.fe_id === selectedId);
-            if (selectedComponent == null) return;
-            draft.copiedComponent = cloneDeep(selectedComponent); // 深拷贝
-        }),
-        // 粘贴组件
-        pasteCopiedComponent: produce((draft: ComponentsStateType) => {
-            const { copiedComponent } = draft;
-            if (copiedComponent == null) return;
-
-            // 要把 fe_id 给修改了，重要！！
-            copiedComponent.fe_id = nanoid();
-
-            // 插入 copiedComponent
-            insertNewComponent(draft, copiedComponent);
-        }),
-        // 选中上一个
-        selectPrevComponent: produce((draft: ComponentsStateType) => {
-            const { selectedId, componentList } = draft;
-            const selectedIndex = componentList.findIndex(c => c.fe_id === selectedId);
-
-            if (selectedIndex < 0) return; // 未选中组件
-            if (selectedIndex <= 0) return; // 已经选中了第一个，无法在向上选中
-
-            draft.selectedId = componentList[selectedIndex - 1].fe_id;
-        }),
-
-        // 选中下一个
-        selectNextComponent: produce((draft: ComponentsStateType) => {
-            const { selectedId, componentList } = draft;
-            const selectedIndex = componentList.findIndex(c => c.fe_id === selectedId);
-
-            if (selectedIndex < 0) return; // 未选中组件
-            if (selectedIndex + 1 === componentList.length) return; // 已经选中了最后一个，无法再向下选中
-
-            draft.selectedId = componentList[selectedIndex + 1].fe_id;
-        }),
-        // 修改组件标题
-        changeComponentTitle: produce(
-            (
-                draft: ComponentsStateType,
-                action: PayloadAction<{ fe_id: string; title: string }>,
-            ) => {
-                const { title, fe_id } = action.payload;
-                const curComp = draft.componentList.find(c => c.fe_id === fe_id);
-                if (curComp) curComp.title = title;
-            },
-        ),
-        // 移动组件位置
-        moveComponent: produce(
-            (
-                draft: ComponentsStateType,
-                action: PayloadAction<{ oldIndex: number; newIndex: number }>,
-            ) => {
-                const { componentList: curComponentList } = draft;
-                const { oldIndex, newIndex } = action.payload;
-
-                draft.componentList = arrayMove(curComponentList, oldIndex, newIndex);
-            },
-        ),
         // 隐藏/显示 组件
         changeComponentHidden: produce(
             (
@@ -175,6 +104,85 @@ export const componentsSlice = createSlice({
                 }
             },
         ),
+
+        // 锁定/解锁 组件
+        toggleComponentLocked: produce(
+            (draft: ComponentsStateType, action: PayloadAction<{ fe_id: string }>) => {
+                const { fe_id } = action.payload;
+
+                const curComp = draft.componentList.find(c => c.fe_id === fe_id);
+                if (curComp) {
+                    curComp.isLocked = !curComp.isLocked;
+                }
+            },
+        ),
+
+        // 拷贝当前选中的组件
+        copySelectedComponent: produce((draft: ComponentsStateType) => {
+            const { selectedId, componentList = [] } = draft;
+            const selectedComponent = componentList.find(c => c.fe_id === selectedId);
+            if (selectedComponent == null) return;
+            draft.copiedComponent = cloneDeep(selectedComponent); // 深拷贝
+        }),
+
+        // 粘贴组件
+        pasteCopiedComponent: produce((draft: ComponentsStateType) => {
+            const { copiedComponent } = draft;
+            if (copiedComponent == null) return;
+
+            // 要把 fe_id 给修改了，重要！！
+            copiedComponent.fe_id = nanoid();
+
+            // 插入 copiedComponent
+            insertNewComponent(draft, copiedComponent);
+        }),
+
+        // 选中上一个
+        selectPrevComponent: produce((draft: ComponentsStateType) => {
+            const { selectedId, componentList } = draft;
+            const selectedIndex = componentList.findIndex(c => c.fe_id === selectedId);
+
+            if (selectedIndex < 0) return; // 未选中组件
+            if (selectedIndex <= 0) return; // 已经选中了第一个，无法在向上选中
+
+            draft.selectedId = componentList[selectedIndex - 1].fe_id;
+        }),
+
+        // 选中下一个
+        selectNextComponent: produce((draft: ComponentsStateType) => {
+            const { selectedId, componentList } = draft;
+            const selectedIndex = componentList.findIndex(c => c.fe_id === selectedId);
+
+            if (selectedIndex < 0) return; // 未选中组件
+            if (selectedIndex + 1 === componentList.length) return; // 已经选中了最后一个，无法再向下选中
+
+            draft.selectedId = componentList[selectedIndex + 1].fe_id;
+        }),
+
+        // 移动组件位置
+        moveComponent: produce(
+            (
+                draft: ComponentsStateType,
+                action: PayloadAction<{ oldIndex: number; newIndex: number }>,
+            ) => {
+                const { componentList: curComponentList } = draft;
+                const { oldIndex, newIndex } = action.payload;
+
+                draft.componentList = arrayMove(curComponentList, oldIndex, newIndex);
+            },
+        ),
+
+        // 修改组件标题
+        changeComponentTitle: produce(
+            (
+                draft: ComponentsStateType,
+                action: PayloadAction<{ fe_id: string; title: string }>,
+            ) => {
+                const { title, fe_id } = action.payload;
+                const curComp = draft.componentList.find(c => c.fe_id === fe_id);
+                if (curComp) curComp.title = title;
+            },
+        ),
     },
 });
 
@@ -184,6 +192,7 @@ export const {
     addComponent,
     changeComponentProps,
     removeSelectedComponent,
+    changeComponentHidden,
     toggleComponentLocked,
     copySelectedComponent,
     pasteCopiedComponent,
@@ -191,7 +200,6 @@ export const {
     selectNextComponent,
     changeComponentTitle,
     moveComponent,
-    changeComponentHidden,
 } = componentsSlice.actions;
 
 export default componentsSlice.reducer;
