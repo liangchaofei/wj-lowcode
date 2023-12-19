@@ -4,6 +4,7 @@ import { useRequest } from 'ahooks'
 import { useDispatch } from 'react-redux'
 import { getQuestionService } from '@/services/question'
 import { resetComponents } from '@/store/componentsReducer'
+import { resetPageInfo } from '@/store/pageInfoReducer'
 
 function useLoadQuestionData() {
   const dispatch = useDispatch()
@@ -25,6 +26,11 @@ function useLoadQuestionData() {
   useEffect(() => {
     if (!data) return
     const {
+      title = '',
+      desc = '',
+      js = '',
+      css = '',
+      isPublished = false,
       componentList = []
     } = data
 
@@ -33,10 +39,10 @@ function useLoadQuestionData() {
      if (componentList.length > 0) {
        selectedId = componentList[0].fe_id // 默认选中第一个组件
      }
-    // 把 componentList 存储到 store 中
     // 把 componentList 存储到 Redux store 中
     dispatch(resetComponents({ componentList, selectedId , copiedComponent: null }))
-
+     // 把 pageInfo 存储到 redux store
+    dispatch(resetPageInfo({ title, desc, js, css, isPublished }))
 
   }, [data])
 

@@ -1,13 +1,17 @@
-import React, { FC } from "react";
+import React, { FC } from 'react'
 import { Spin } from 'antd'
 import { useDispatch } from 'react-redux'
-import classNames from 'classnames';
-import { useGetComponentInfo } from '@/hooks'
+import classNames from 'classnames'
+import useGetComponentInfo from '@/hooks/useGetComponentInfo'
+import { getComponentConfByType } from '@/components/QuestionComponents'
 import {
     ComponentInfoType,
     changeSelectedId,
+    moveComponent
 } from '@/store/componentsReducer'
-import { getComponentConfByType } from '@/components/QuestionComponents'
+import useBindCanvasKeyPress from '@/hooks/useBindCanvasKeyPress'
+import SortableContainer from '@/components/DragSortable/SortableContainer'
+import SortableItem from '@/components/DragSortable/SortableItem'
 import styles from './index.module.scss'
 
 type PropsType = {
@@ -23,16 +27,20 @@ function genComponent(componentInfo: ComponentInfoType) {
     const { Component } = componentConf
     return <Component {...props} />
 }
-
-const EditCanvas: FC<PropsType> = ({ loading }) => {
-    const { componentList, selectedId } = useGetComponentInfo();
+  
+const Edit: FC<PropsType> = ({ loading }) => {
+    const { componentList, selectedId } = useGetComponentInfo()
     const dispatch = useDispatch()
+
     // 点击组件，选中
     function handleClick(event: MouseEvent, id: string) {
         event.stopPropagation() // 阻止冒泡
         dispatch(changeSelectedId(id))
     }
 
+    // 绑定快捷键
+    useBindCanvasKeyPress()
+    
     if (loading) {
         return (
           <div style={{ textAlign: 'center', marginTop: '24px' }}>
@@ -40,13 +48,21 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
           </div>
         )
     }
+     // SortableContainer 组件的 items 属性，需要每个 item 都有 id
+  const componentListWithId = componentList.map(c => {
+    return { ...c, id: c.fe_id }
+  })
 
-
+  // 拖拽排序结束
+  function handleDragEnd(oldIndex: number, newIndex: number) {
+    dispatch(moveComponent({ oldIndex, newIndex }))
+  }
     return (
+        <SortableContainer items={componentListWithId} onDragEnd={handleDragEnd}>
         <div className={styles.canvas}>
             {
-                componentList.length >0 && componentList?.map(item => {
-                    const { fe_id, isLocked } = item;
+                componentList?.map(item => {
+                    const {fe_id,isLocked } = item;
                      // 拼接 class name
                     const wrapperDefaultClassName = styles['component-wrapper']
                     const selectedClassName = styles.selected
@@ -56,17 +72,21 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
                         [selectedClassName]: fe_id === selectedId,
                         [lockedClassName]: isLocked,
                     })
+
                     return (
-                        <div key={fe_id} className={wrapperClassName} onClick={(e: any) => handleClick(e, item.fe_id)}>
+                        <SortableItem key={item.fe_id} id={item.fe_id}>
+                        <div  className={wrapperClassName} onClick={(e: any) => handleClick(e, item.fe_id)}>
                             <div className={styles.component}>
                                 { genComponent(item)}
                             </div>
-                        </div>
+                            </div>
+                            </SortableItem>
                     )
                 })
             }
-        </div>
+            </div>
+            </SortableContainer>
     )
 }
 
-export default EditCanvas;
+export default Edit

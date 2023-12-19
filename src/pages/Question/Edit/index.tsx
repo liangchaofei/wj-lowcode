@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { useLoadQuestionData } from '@/hooks'
+import { useLoadQuestionData, useBindCanvasKeyPress } from '@/hooks'
 import { changeSelectedId } from '@/store/componentsReducer'
 import EditHeader from './EditHeader'
 import EditCanvas from './EditCanvas'
@@ -14,6 +14,9 @@ const Editor: FC = () => {
     function clearSelectedId() {
         dispatch(changeSelectedId(''))
     }
+
+    // 绑定快捷键
+    useBindCanvasKeyPress()
 
     return (
         <div className={styles.container}>
