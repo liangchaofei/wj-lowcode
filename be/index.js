@@ -25,4 +25,4 @@ mockList.forEach(item => {
 })
 
 app.use(router.routes())
-app.listen(3002) // port 端口
+app.listen(3001) // port 端口
