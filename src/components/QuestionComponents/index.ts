@@ -47,7 +47,6 @@ const componentConfList: ComponentConfType[] = [
 ];
 
 export function getComponentConfByType(type: string) {
-    console.log("aa", componentConfList);
     return componentConfList.find(c => c.type === type);
 }
 

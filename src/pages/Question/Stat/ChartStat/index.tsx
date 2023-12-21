@@ -34,7 +34,6 @@ const ChartStat: FC<PropsType> = (props: PropsType) => {
     // 生成统计图表
     function genStatElem() {
         if (!selectedComponentId) return <div>未选中组件</div>;
-        console.log("selectedComponentType", selectedComponentType);
         const { StatComponent } = getComponentConfByType(selectedComponentType) || {};
         if (StatComponent == null) return <div>该组件无统计图表</div>;
 

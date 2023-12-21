@@ -15,7 +15,6 @@ const { Title } = Typography;
 // 显示和修改标题
 const TitleElem: FC = () => {
     const { title } = useGetPageInfo();
-    console.log("title", title);
     const dispatch = useDispatch();
 
     const [editState, SetEditState] = useState(false);

@@ -17,7 +17,6 @@ const Stat: FC = () => {
     // 状态提升 selectedId type
     const [selectedComponentId, setSelectedComponentId] = useState("");
     const [selectedComponentType, setSelectedComponentType] = useState("");
-    console.log("selectedComponentType", selectedComponentType);
     // 修改标题
     useTitle(`问卷统计 - ${title}`);
 

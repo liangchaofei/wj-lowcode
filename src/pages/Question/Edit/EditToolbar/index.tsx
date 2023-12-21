@@ -31,7 +31,6 @@ const EditToolbar = () => {
     const selectedIndex = componentList.findIndex(c => c.fe_id === selectedId);
     const isFirst = selectedIndex <= 0; // 第一个
     const isLast = selectedIndex + 1 >= length; // 最后一个
-    console.log("isLast", isLast);
     // 删除
     const handleDelete = () => {
         dispatch(removeSelectedComponent());
